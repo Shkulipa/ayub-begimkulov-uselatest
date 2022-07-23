@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useRef, useLayoutEffect} from "react";
 
 const Button = memo(({ text, onClick }) => {
   console.log("button is rendered");
@@ -7,10 +7,15 @@ const Button = memo(({ text, onClick }) => {
 
 function App() {
   const [text, setText] = useState("");
+  const textRef = useRef(text);
+
+  useLayoutEffect(() => {
+    textRef.current = text;
+  }, [text])
 
   const onClick = useCallback(() => {
-    console.log("save text:", text);
-  }, [text])
+    console.log("save text:", textRef.current);
+  }, [])
 
   return (
     <div>
