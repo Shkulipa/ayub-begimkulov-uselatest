@@ -1,5 +1,15 @@
 import { memo, useCallback, useState, useRef, useLayoutEffect} from "react";
 
+function useLatest(value) {
+  const valueRef = useRef(value);
+
+  useLayoutEffect(() => {
+    valueRef.current = value;
+  }, [value])
+
+  return value;
+}
+
 const Button = memo(({ text, onClick }) => {
   console.log("button is rendered");
   return <button onClick={onClick}>{text}</button>
@@ -7,15 +17,11 @@ const Button = memo(({ text, onClick }) => {
 
 function App() {
   const [text, setText] = useState("");
-  const textRef = useRef(text);
-
-  useLayoutEffect(() => {
-    textRef.current = text;
-  }, [text])
+  const latestText = useLatest(text);
 
   const onClick = useCallback(() => {
-    console.log("save text:", textRef.current);
-  }, [])
+    console.log("save text:", latestText.current);
+  }, [latestText])
 
   return (
     <div>
