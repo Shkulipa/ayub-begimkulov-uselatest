@@ -7,7 +7,7 @@ function useLatest(value) {
     valueRef.current = value;
   }, [value])
 
-  return value;
+  return valueRef;
 }
 
 const Button = memo(({ text, onClick }) => {
